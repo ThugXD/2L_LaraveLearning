@@ -10,18 +10,21 @@
             <div id="info-container" class="col-md-6">
                 <h1>{{ $event->title }}</h1>
                 <p class="event-city"><i class="fas fa-location"></i> {{ $event->city }}</p>
-                <p class="events-participants"><i class="fas fa-users"></i>X Pariticipantes</p>
+                <p class="events-participants"><i class="fas fa-users"></i>{{ count($event->users) }} Pariticipantes</p>
                 <p class="event-owner"><i class="fas fa-star"></i>{{ $eventOwner['name'] }}</p>
-
-                <form action="events/join/{{ $event->id }}" method="post">
-                    @csrf
-                    <a href="#" 
-                    class="btn btn-primary" 
-                    id="event-submit"
-                    onclick="event.preventDefault();
-                    this.closest('form').submit();"
-                    >Confirmar presença</a>
+                @if(!$hasUserJoined)
+                    <form action="/events/join/{{$event->id}}" method="post">
+                        @csrf
+                        <a href="#" 
+                            class="btn btn-primary" 
+                            id="event-submit"
+                            onclick="event.preventDefault();
+                            this.closest('form').submit();">
+                            Confirmar presença</a>
                 </form>
+                @else
+                    <p class="msg">Confirmação Feita</p>
+                @endif
 
                 <h3>O evento conta com</h3>
                 <u id="items-list">
